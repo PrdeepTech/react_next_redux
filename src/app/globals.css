@@ -31,3 +31,7 @@ body {
 .text-blue-600{
   color: #171717;
 }
+
+h1,a{
+  color: red !important
+}
