@@ -35,3 +35,14 @@ body {
 h1,a{
   color: red !important
 }
+
+a{
+  color: #fff !important
+}
+h1{
+  color: #171717;
+}
+header, nav a, footer {
+  background-color: #171717;
+  color: #ededed;
+}
