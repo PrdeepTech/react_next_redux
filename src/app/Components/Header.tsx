@@ -1,12 +1,9 @@
 import Link from "next/link";
-import { lazy } from "react";
 import "./header.css";
-
-const Home = lazy(()=> import ('@/app/page'));
-const About = lazy(()=> import('@/app/about/page'));
-const Services = lazy(()=> import('@/app/services/page'))
-const Contact = lazy(()=> import('@/app/contact/page'))
-
+// const Home = lazy(()=> import ('@/app/page'));
+// const About = lazy(()=> import('@/app/about/page'));
+// const Services = lazy(()=> import('@/app/services/page'))
+// const Contact = lazy(()=> import('@/app/contact/page'))
 
 const Header = () => {
   return (
