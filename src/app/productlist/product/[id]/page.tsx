@@ -1,46 +1,89 @@
+'use client';
 
-interface ProductDetailPageProps {
-  params: { id: string };
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+interface Product {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  image: string;
 }
 
-export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
-  const id = params.id;
+interface CartItem {
+  product: Product;
+  quantity: number;
+}
 
-  // fetch data from external API
-  const res = await fetch(`https://fakestoreapi.com/products/${id}`);
-  
-  if (!res.ok) {
-    return <div style={{ padding: 20 }}>Error loading product</div>;
-  }
+export default function ProductDetailPage() {
+  const { id } = useParams();
+  const [product, setProduct] = useState<Product | null>(null);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [total, setTotal] = useState(0);
 
-  const product = await res.json();
+  useEffect(() => {
+    if (id) {
+      fetch(`https://fakestoreapi.com/products/${id}`)
+        .then((res) => res.json())
+        .then((data) => setProduct(data));
+    }
+  }, [id]);
+
+  useEffect(() => {
+    const totalPrice = cartItems.reduce(
+      (sum, item) => sum + item.product.price * item.quantity,
+      0
+    );
+    setTotal(totalPrice);
+  }, [cartItems]);
+
+  const handleAddToCart = () => {
+    if (!product) return;
+
+    setCartItems((prev) => {
+      const existingItem = prev.find((item) => item.product.id === product.id);
+
+      if (existingItem) {
+        // Update quantity
+        return prev.map((item) =>
+          item.product.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        // Add new item
+        return [...prev, { product, quantity: 1 }];
+      }
+    });
+  };
+
+  if (!product) return <p>Loading...</p>;
 
   return (
-    <>
-    <div style={{ padding: '40px', maxWidth: '800px', margin: 'auto', fontFamily: 'sans-serif' }}>
-      <div style={{ display: 'flex', gap: '30px' }}>
+    <div style={{ padding: 40, fontFamily: 'sans-serif' }} className='columns-2 gap-20'>
+      {/* Product Details */}
+      <div style={{ display: 'flex', gap: 30, marginBottom: 40 }}>
         <img
           src={product.image}
           alt={product.title}
-          style={{ width: '300px', height: 'auto', objectFit: 'contain' }}
+          style={{ width: 300, height: 'auto', objectFit: 'contain' }}
         />
         <div>
-          <h1 style={{ fontSize: '28px', marginBottom: '10px' }}>{product.title}</h1>
-          <p style={{ fontSize: '18px', color: '#555', marginBottom: '10px' }}>
-            {product.description}
-          </p>
-          <p style={{ fontSize: '22px', fontWeight: 'bold', color: '#1a8917' }}>
+          <h1 className='font-bold flex-1/2'>{product.title}</h1>
+          <p style={{ color: '#555', marginTop: 10 }}>{product.description}</p>
+          <p style={{ fontWeight: 'bold', fontSize: 18, marginTop: 10 }}>
             ₹{product.price}
           </p>
           <button
+            onClick={handleAddToCart}
             style={{
-              marginTop: '20px',
+              marginTop: 20,
               padding: '10px 20px',
-              fontSize: '16px',
-              backgroundColor: '#0070f3',
-              color: 'white',
+              background: '#0070f3',
+              color: '#fff',
               border: 'none',
-              borderRadius: '5px',
+              borderRadius: 5,
               cursor: 'pointer',
             }}
           >
@@ -48,7 +91,51 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           </button>
         </div>
       </div>
+
+      {/* Cart Section */}
+      <div>
+        <h2 style={{ fontSize: 22, marginBottom: 10 }}>🛒 Cart Items</h2>
+        {cartItems.length === 0 ? (
+          <p>No items in cart.</p>
+        ) : (
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr style={{ background: '#f0f0f0' }}>
+                <th style={{ textAlign: 'left', padding: 10 }}>Product</th>
+                <th style={{ textAlign: 'right', padding: 10 }}>Price</th>
+                <th style={{ textAlign: 'right', padding: 10 }}>Qty</th>
+                <th style={{ textAlign: 'right', padding: 10 }}>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cartItems.map((item) => (
+                <tr key={item.product.id}>
+                  <td style={{ padding: 10 }}>{item.product.title}</td>
+                  <td style={{ textAlign: 'right', padding: 10 }}>
+                    ₹{item.product.price}
+                  </td>
+                  <td style={{ textAlign: 'right', padding: 10 }}>
+                    {item.quantity}
+                  </td>
+                  <td style={{ textAlign: 'right', padding: 10 }}>
+                    ₹{(item.product.price * item.quantity).toFixed(2)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colSpan={3} style={{ textAlign: 'right', padding: 10 }}>
+                  <strong>Total:</strong>
+                </td>
+                <td style={{ textAlign: 'right', padding: 10 }}>
+                  <strong>₹{total.toFixed(2)}</strong>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        )}
+      </div>
     </div>
-    </>
   );
 }

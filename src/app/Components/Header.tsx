@@ -1,5 +1,7 @@
 import Link from "next/link";
 import "./header.css";
+import UserProfile from "./UserProfile";
+
 // const Home = lazy(()=> import ('@/app/page'));
 // const About = lazy(()=> import('@/app/about/page'));
 // const Services = lazy(()=> import('@/app/services/page'))
@@ -23,8 +25,9 @@ const Header = () => {
           <Link href="/contact" className="text-gray-700 hover:text-blue-600 active:text-blue-500">Contact</Link>
           <Link href="/productlist" className="text-gray-700 hover:text-blue-600 active:text-blue-500">Products</Link>
          </nav>
+         <UserProfile />
       </div>
-      
+
     </header>
     </>
   )
