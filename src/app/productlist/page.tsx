@@ -2,10 +2,12 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
+import useFetch from '../Components/customHook';
 
 
 const ProductPage = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
+  
 
   const router = useRouter();
   const goToProduct = (id: number, title: string) => {
@@ -18,6 +20,8 @@ const ProductPage = () => {
       .then((data) => setData(data));
   }, []);
 
+  const [customdata] = useFetch("https://fakestoreapi.com/products");
+
   return (
     <>
     
@@ -25,7 +29,7 @@ const ProductPage = () => {
       <div className="flex flex-wrap justify-center gap-4 p-4">
 
         {data &&
-          data.map((item) => {
+          data.map((item:any) => {
 
             return (
 
@@ -70,6 +74,50 @@ const ProductPage = () => {
             )
           })}
       </div>
+      <div className="flex flex-wrap justify-center gap-4 p-4">
+      {customdata &&
+        customdata.map((item:any) => {
+          return (
+
+              <div
+                key={item.id}
+                id={item.id}
+                style={{
+                  border: '1px solid #ccc',
+                  borderRadius: '8px',
+                  padding: '10px',
+                  width: '200px',
+                  backgroundColor: '#fff',
+                }}
+              >
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  style={{ width: '100%', height: '150px', objectFit: 'contain' }}
+                />
+                <h3 style={{ fontSize: '16px', margin: '10px 0' }}>
+                  {item.title}
+                </h3>
+                <p style={{ color: 'green', fontWeight: 'bold' }}>
+                  ₹{item.price}
+                </p>
+                <button
+                  style={{
+                    marginTop: '10px',
+                    padding: '8px 12px',
+                    backgroundColor: '#007bff',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={()=> goToProduct(item.id, item.title)}>
+                  View
+                </button>
+              </div>
+            )
+        })}
+        </div>
     </>
   )
 }

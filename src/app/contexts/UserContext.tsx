@@ -17,7 +17,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 // 2. Create Provider
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User>({ name: 'dark', role: 'Admin' });
+  const [user, setUser] = useState<User>({ name: 'Pradeep', role: 'Admin' });
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
