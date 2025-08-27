@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import './product.css';
 
 interface Product {
   id: number;
@@ -77,15 +78,7 @@ export default function ProductDetailPage() {
           </p>
           <button
             onClick={handleAddToCart}
-            style={{
-              marginTop: 20,
-              padding: '10px 20px',
-              background: '#0070f3',
-              color: '#fff',
-              border: 'none',
-              borderRadius: 5,
-              cursor: 'pointer',
-            }}
+            className='btnStyle'
           >
             Add to Cart
           </button>
