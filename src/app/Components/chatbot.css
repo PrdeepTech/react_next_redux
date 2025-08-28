@@ -20,7 +20,20 @@
     background: #fff;
     right: 0;
 }
-
+.chatBox [style*="text-align: right"]{
+   background: #f0e50a;
+   padding: 6px 10px;
+    margin: 6px;
+    border-radius: 5px;
+    color: #000;
+}
+.chatBox [style*="text-align: left"]{
+   background: green;
+   padding: 6px 10px;
+    margin: 6px;
+    border-radius: 5px;
+    color: #fff;
+}
 .closeBtn {
     position: absolute;
     top: 10px;
