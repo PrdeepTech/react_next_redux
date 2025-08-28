@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import Chatbot from "./Components/chatbot";
 import Footer from "./Components/Footer";
 import Header from "./Components/Header";
 import { UserProvider } from "./contexts/UserContext";
@@ -21,6 +22,7 @@ export default function RootLayout({
          <UserProvider>
         <Header />
           {children}
+          <Chatbot />
         <Footer />
          </UserProvider>
       </body>
