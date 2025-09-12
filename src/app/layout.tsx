@@ -5,6 +5,7 @@ import Footer from "./Components/Footer";
 import Header from "./Components/Header";
 import { UserProvider } from "./contexts/UserContext";
 import "./globals.css";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,12 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <Providers>
          <UserProvider>
         <Header />
           {children}
           <Chatbot />
         <Footer />
          </UserProvider>
+         </Providers>
       </body>
     </html>
   );

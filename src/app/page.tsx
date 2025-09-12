@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import Counter from '../Components/Counter';
 import AboutPage from "./about/page";
 import Contact from "./contact/page";
 import ServicePage from "./services/page";
@@ -26,6 +27,7 @@ export default function Home() {
         <section>
           <AboutPage />
         </section>
+        <Counter />
 
         <Suspense fallback={<div>Loading...</div>}>
           <section>

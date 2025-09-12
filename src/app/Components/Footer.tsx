@@ -5,7 +5,7 @@ const Footer = () => {
     
     <>
     <footer className="bg-white border-t mt-12">
-      <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+      <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col md:flex-row justify-between items-center text-center md:text-left">
         {/* Branding */}
         <div className="mb-4 md:mb-0">
           <h2 className="text-xl font-bold text-blue-600">MyWebsite</h2>
